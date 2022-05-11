@@ -1,8 +1,8 @@
 package io.quarkiverse.openapi.generator.deployment.wrapper;
 
-import static io.quarkiverse.openapi.generator.deployment.SpecConfig.getSanitizedFileName;
-import static io.quarkiverse.openapi.generator.deployment.SpecConfig.resolveApiPackage;
-import static io.quarkiverse.openapi.generator.deployment.SpecConfig.resolveModelPackage;
+import static io.quarkiverse.openapi.generator.deployment.SpecBuildTimeConfig.getSanitizedFileName;
+import static io.quarkiverse.openapi.generator.deployment.SpecBuildTimeConfig.resolveApiPackage;
+import static io.quarkiverse.openapi.generator.deployment.SpecBuildTimeConfig.resolveModelPackage;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 

@@ -1,7 +1,7 @@
 package io.quarkiverse.openapi.generator.deployment.codegen;
 
-import static io.quarkiverse.openapi.generator.deployment.SpecConfig.getResolvedBasePackagePropertyName;
-import static io.quarkiverse.openapi.generator.deployment.SpecConfig.getSkipFormModelPropertyName;
+import static io.quarkiverse.openapi.generator.deployment.SpecBuildTimeConfig.getResolvedBasePackagePropertyName;
+import static io.quarkiverse.openapi.generator.deployment.SpecBuildTimeConfig.getSkipFormModelPropertyName;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -9,8 +9,8 @@ import io.quarkus.runtime.annotations.ConfigRoot;
 import io.smallrye.config.common.utils.StringUtil;
 
 // This configuration is read in codegen phase (before build time), the annotation is for document purposes and avoiding quarkus warns
-@ConfigRoot(name = SpecConfig.BUILD_TIME_CONFIG_PREFIX, phase = ConfigPhase.BUILD_TIME)
-public class SpecConfig {
+@ConfigRoot(name = SpecBuildTimeConfig.BUILD_TIME_CONFIG_PREFIX, phase = ConfigPhase.BUILD_TIME)
+public class SpecBuildTimeConfig {
 
     static final String BUILD_TIME_CONFIG_PREFIX = "openapi-generator.codegen";
     public static final String API_PKG_SUFFIX = ".api";
@@ -24,7 +24,7 @@ public class SpecConfig {
      * OpenAPI Spec details for codegen configuration.
      */
     @ConfigItem(name = "spec")
-    public Map<String, SpecItemConfig> specItem;
+    public Map<String, SpecItemBuildTimeConfig> specItem;
 
     public static String resolveApiPackage(final String basePackage) {
         return String.format("%s%s", basePackage, API_PKG_SUFFIX);

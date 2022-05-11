@@ -10,7 +10,7 @@ import java.util.Objects;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
-import io.quarkiverse.openapi.generator.deployment.SpecConfig;
+import io.quarkiverse.openapi.generator.deployment.SpecBuildTimeConfig;
 import io.smallrye.config.PropertiesConfigSource;
 
 public class SpecInputModel {
@@ -33,7 +33,7 @@ public class SpecInputModel {
      */
     public SpecInputModel(final String filename, final InputStream inputStream, final String basePackageName) {
         this(filename, inputStream);
-        this.codegenProperties.put(SpecConfig.getResolvedBasePackagePropertyName(Path.of(filename)), basePackageName);
+        this.codegenProperties.put(SpecBuildTimeConfig.getResolvedBasePackagePropertyName(Path.of(filename)), basePackageName);
     }
 
     public String getFileName() {
