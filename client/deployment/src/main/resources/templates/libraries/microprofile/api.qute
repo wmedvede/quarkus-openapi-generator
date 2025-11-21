@@ -54,11 +54,9 @@ public interface {classname} {
     @jakarta.ws.rs.Produces(\{{#for produce in op.produces}"{produce.mediaType}"{#if produce_hasNext}, {/if}{/for}\})
     {/if}
     @io.quarkiverse.openapi.generator.annotations.GeneratedMethod("{op.operationIdOriginal}")
-    {#for cbClassConfig in circuit-breaker.orEmpty}{#if cbClassConfig.key == str:fmt("%s.%s", package, classname)}
-    {#for cbMethod in cbClassConfig.value.orEmpty}{#if cbMethod == op.nickname}
-    @org.eclipse.microprofile.faulttolerance.CircuitBreaker
-    {/if}{/for}
-    {/if}{/for}
+    {#if fault-tolerance.hasFaultTolerance(package, classname, op.nickname)}
+    {#include faultTolerance.qute packageName=package className=classname methodName=op.nickname /}
+    {/if}
         {#if mutiny}
             {#if mutiny-operation-ids.get(op.operationIdOriginal) == "Multi"}
                 {#if mutiny-return-response == "Response"}

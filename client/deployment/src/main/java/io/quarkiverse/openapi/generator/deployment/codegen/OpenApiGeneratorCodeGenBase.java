@@ -38,7 +38,7 @@ import org.openapitools.codegen.config.GlobalSettings;
 
 import io.quarkiverse.openapi.generator.deployment.CodegenConfig;
 import io.quarkiverse.openapi.generator.deployment.OpenApiGeneratorOptions;
-import io.quarkiverse.openapi.generator.deployment.circuitbreaker.CircuitBreakerConfigurationParser;
+import io.quarkiverse.openapi.generator.deployment.faulttolerance.FaultToleranceConfigParser;
 import io.quarkiverse.openapi.generator.deployment.wrapper.OpenApiClassicClientGeneratorWrapper;
 import io.quarkiverse.openapi.generator.deployment.wrapper.OpenApiClientGeneratorWrapper;
 import io.quarkiverse.openapi.generator.deployment.wrapper.OpenApiReactiveClientGeneratorWrapper;
@@ -224,7 +224,7 @@ public abstract class OpenApiGeneratorCodeGenBase implements CodeGenProvider {
         generator.withTemplateDir(options.templateDir());
 
         generator.withClassesCodeGenConfig(ClassCodegenConfigParser.parse(config, basePackage))
-                .withCircuitBreakerConfig(CircuitBreakerConfigurationParser.parse(
+                .withFaultToleranceConfig(FaultToleranceConfigParser.parse(
                         config));
 
         getApiNameSuffix(config, openApiFilePath)

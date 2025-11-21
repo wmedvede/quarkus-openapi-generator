@@ -18,7 +18,7 @@
     <module>beanparam</module>
     <module>change-directory</module>
     <module>change-custom-template-directory</module>
-    <module>circuit-breaker</module>
+    <module>fault-tolerance</module>
     <module>cookie-authentication</module>
     <module>custom-templates</module>
     <module>enum-property</module>
