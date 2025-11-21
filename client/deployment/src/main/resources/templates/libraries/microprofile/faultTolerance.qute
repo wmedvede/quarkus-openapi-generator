@@ -1,0 +1,9 @@
+{#if fault-tolerance.hasCircuitBreaker(packageName, className, methodName) }
+    @org.eclipse.microprofile.faulttolerance.CircuitBreaker
+{/if}
+{#if fault-tolerance.hasTimeout(packageName, className, methodName) }
+    @org.eclipse.microprofile.faulttolerance.Timeout
+{/if}
+{#if fault-tolerance.hasRetry(packageName, className, methodName) }
+    @org.eclipse.microprofile.faulttolerance.Retry
+{/if}

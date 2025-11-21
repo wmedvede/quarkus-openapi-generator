@@ -1,4 +1,4 @@
-package io.quarkiverse.openapi.generator.deployment.assertions;
+package io.quarkiverse.openapi.generator.it.faulttolerance.assertions;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
 

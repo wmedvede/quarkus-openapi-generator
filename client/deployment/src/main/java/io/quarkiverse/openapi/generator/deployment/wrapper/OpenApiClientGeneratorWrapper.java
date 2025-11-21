@@ -21,6 +21,8 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.GlobalSettings;
 
+import io.quarkiverse.openapi.generator.deployment.faulttolerance.FaultToleranceConfig;
+
 /**
  * Wrapper for the OpenAPIGen tool.
  * This is the same as calling the Maven plugin or the CLI.
@@ -96,7 +98,7 @@ public abstract class OpenApiClientGeneratorWrapper {
         this.configurator.addAdditionalProperty("additionalEnumTypeUnexpectedMemberStringValue", "");
         this.configurator.addAdditionalProperty("additionalRequestArgs", new String[0]);
         this.configurator.addAdditionalProperty("classes-codegen", new HashMap<>());
-        this.configurator.addAdditionalProperty("circuit-breaker", new HashMap<>());
+        this.configurator.addAdditionalProperty(FaultToleranceConfig.NAME, new FaultToleranceConfig());
         this.configurator.addAdditionalProperty("configKey", "");
         this.configurator.addAdditionalProperty("datatypeWithEnum", "");
         this.configurator.addAdditionalProperty("enable-security-generation", TRUE);
@@ -117,15 +119,13 @@ public abstract class OpenApiClientGeneratorWrapper {
     }
 
     /**
-     * Adds the circuit breaker configuration to the generator.
+     * Adds the fault tolerance configuration to the generator.
      *
-     * @param config a map of class names and their methods that should be configured with circuit breaker
+     * @param config the fault tolerance configuration to use during the code generation.
      * @return this wrapper
      */
-    public OpenApiClientGeneratorWrapper withCircuitBreakerConfig(final Map<String, List<String>> config) {
-        Optional.ofNullable(config).ifPresent(cfg -> {
-            this.configurator.addAdditionalProperty("circuit-breaker", config);
-        });
+    public OpenApiClientGeneratorWrapper withFaultToleranceConfig(final FaultToleranceConfig config) {
+        this.configurator.addAdditionalProperty(FaultToleranceConfig.NAME, config);
         return this;
     }
 

@@ -1,6 +1,7 @@
 package io.quarkiverse.openapi.generator.deployment.wrapper;
 
 import static io.quarkiverse.openapi.generator.deployment.assertions.Assertions.assertThat;
+import static io.quarkiverse.openapi.generator.testutils.faulttolerance.assertions.MethodAssert.CIRCUIT_BREAKER_ANNOTATION_NAME;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -14,6 +15,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -46,6 +48,8 @@ import io.quarkiverse.openapi.generator.annotations.GeneratedClass;
 import io.quarkiverse.openapi.generator.annotations.GeneratedMethod;
 import io.quarkiverse.openapi.generator.deployment.MockConfigUtils;
 import io.quarkiverse.openapi.generator.deployment.codegen.ClassCodegenConfigParser;
+import io.quarkiverse.openapi.generator.deployment.faulttolerance.FaultToleranceConfig;
+import io.quarkiverse.openapi.generator.deployment.faulttolerance.FaultToleranceDescriptor;
 
 public class OpenApiClientGeneratorWrapperTest {
 
@@ -345,10 +349,10 @@ public class OpenApiClientGeneratorWrapperTest {
 
         assertThat(byeMethod).isNotEmpty();
 
-        assertThat(byeMethod.orElseThrow()).hasCircuitBreakerAnnotation().doesNotHaveAnyCircuitBreakerAttribute();
+        assertThat(byeMethod.get()).hasAnnotation(CIRCUIT_BREAKER_ANNOTATION_NAME).doesNotNaveAnyAttribute();
 
         methodDeclarations.stream().filter(m -> !m.getNameAsString().equals(byeMethodGet))
-                .forEach(m -> assertThat(m).doesNotHaveCircuitBreakerAnnotation());
+                .forEach(m -> assertThat(m).doesNotHaveAnnotation(CIRCUIT_BREAKER_ANNOTATION_NAME));
     }
 
     @Test
@@ -746,9 +750,12 @@ public class OpenApiClientGeneratorWrapperTest {
     }
 
     private List<File> generateRestClientFiles() throws URISyntaxException {
-        OpenApiClientGeneratorWrapper generatorWrapper = createGeneratorWrapper("simple-openapi.json").withCircuitBreakerConfig(
-                Map.of("org.openapitools.client.api.DefaultApi", List.of("opThatDoesNotExist", "byeMethodGet")));
+        Map<String, FaultToleranceDescriptor> methodFaultTolerance = Map.of(
+                "org.openapitools.client.api.DefaultApi.opThatDoesNotExist", new FaultToleranceDescriptor(),
+                "org.openapitools.client.api.DefaultApi.byeMethodGet", new FaultToleranceDescriptor(true, false, false));
 
+        OpenApiClientGeneratorWrapper generatorWrapper = createGeneratorWrapper("simple-openapi.json")
+                .withFaultToleranceConfig(new FaultToleranceConfig(new HashMap<>(), methodFaultTolerance));
         return generatorWrapper.generate("org.openapitools.client");
     }
 
