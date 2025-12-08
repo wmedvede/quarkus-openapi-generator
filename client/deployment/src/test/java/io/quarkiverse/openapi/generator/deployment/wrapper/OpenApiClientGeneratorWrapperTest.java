@@ -50,6 +50,7 @@ import io.quarkiverse.openapi.generator.deployment.MockConfigUtils;
 import io.quarkiverse.openapi.generator.deployment.codegen.ClassCodegenConfigParser;
 import io.quarkiverse.openapi.generator.deployment.faulttolerance.FaultToleranceConfig;
 import io.quarkiverse.openapi.generator.deployment.faulttolerance.FaultToleranceDescriptor;
+import io.quarkiverse.openapi.generator.deployment.mutiny.MutinyConfig;
 
 public class OpenApiClientGeneratorWrapperTest {
 
@@ -470,7 +471,8 @@ public class OpenApiClientGeneratorWrapperTest {
 
     @Test
     void shouldBeAbleToEnableMutiny() throws URISyntaxException, FileNotFoundException {
-        List<File> generatedFiles = createGeneratorWrapper("simple-openapi.json").withMutiny(true)
+        MutinyConfig mutinyConfig = new MutinyConfig(true, false, new HashMap<>(), false);
+        List<File> generatedFiles = createGeneratorWrapper("simple-openapi.json").withMutinyConfig(mutinyConfig)
                 .generate("org.mutiny.enabled");
 
         Optional<File> file = generatedFiles.stream().filter(f -> f.getName().endsWith("DefaultApi.java")).findAny();
@@ -489,8 +491,11 @@ public class OpenApiClientGeneratorWrapperTest {
 
     @Test
     void shouldBeAbleToApplyMutinyOnSpecificEndpoints() throws URISyntaxException, FileNotFoundException {
-        List<File> generatedFiles = createGeneratorWrapper("simple-openapi.json").withMutiny(true)
-                .withMutinyReturnTypes(Map.of("helloMethod", "Uni", "Bye method_get", "Multi")).generate("org.mutiny.enabled");
+        Map<String, String> mutinyReturnTypes = Map.of("helloMethod", "Uni", "Bye method_get", "Multi");
+        MutinyConfig mutinyConfig = new MutinyConfig(true, false, mutinyReturnTypes, false);
+
+        List<File> generatedFiles = createGeneratorWrapper("simple-openapi.json").withMutinyConfig(mutinyConfig)
+                .generate("org.mutiny.enabled");
 
         Optional<File> file = generatedFiles.stream().filter(f -> f.getName().endsWith("DefaultApi.java")).findAny();
         assertThat(file).isNotEmpty();
@@ -518,8 +523,9 @@ public class OpenApiClientGeneratorWrapperTest {
     @Test
     void shouldBeAbleToApplyMutinyOnSpecificEndpointsWhenUserDefineWrongConfiguration()
             throws URISyntaxException, FileNotFoundException {
-        List<File> generatedFiles = createGeneratorWrapper("simple-openapi.json").withMutiny(true)
-                .withMutinyReturnTypes(Map.of("helloMethod", "Uni", "Bye method_get", "BadConfig"))
+        Map<String, String> mutinyReturnTypes = Map.of("helloMethod", "Uni", "Bye method_get", "BadConfig");
+        MutinyConfig mutinyConfig = new MutinyConfig(true, false, mutinyReturnTypes, false);
+        List<File> generatedFiles = createGeneratorWrapper("simple-openapi.json").withMutinyConfig(mutinyConfig)
                 .generate("org.mutiny.enabled");
 
         Optional<File> file = generatedFiles.stream().filter(f -> f.getName().endsWith("DefaultApi.java")).findAny();

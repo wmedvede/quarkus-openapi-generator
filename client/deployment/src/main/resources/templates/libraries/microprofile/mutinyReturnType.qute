@@ -1,0 +1,53 @@
+{#if mutiny.returnMulti(op.operationIdOriginal) }
+    {#if mutiny.returnResponse() }
+    public io.smallrye.mutiny.Multi<jakarta.ws.rs.core.Response> {op.nickname}(
+    {#else}
+        {#if op.returnType == "void"}
+    public io.smallrye.mutiny.Multi<jakarta.ws.rs.core.Response> {op.nickname}(
+        {#else}
+    public io.smallrye.mutiny.Multi<{#if op.returnType}{op.returnType}{#else}jakarta.ws.rs.core.Response{/if}> {op.nickname}(
+        {/if}
+    {/if}
+{#else}
+    {#if mutiny.returnUni(op.operationIdOriginal) }
+        {#if mutiny.returnResponse()}
+    public io.smallrye.mutiny.Uni<jakarta.ws.rs.core.Response> {op.nickname}(
+        {#else}
+            {#if op.returnType == "void"}
+    public io.smallrye.mutiny.Uni<jakarta.ws.rs.core.Response> {op.nickname}(
+            {#else}
+    public io.smallrye.mutiny.Uni<{#if op.returnType}{op.returnType}{#else}jakarta.ws.rs.core.Response{/if}> {op.nickname}(
+            {/if}
+        {/if}
+    {#else}
+       {#if mutiny.emptyOperationIds() }
+            {#if mutiny.returnResponse() }
+    public io.smallrye.mutiny.Uni<jakarta.ws.rs.core.Response> {op.nickname}(
+            {#else}
+                {#if op.returnType == "void"}
+    public io.smallrye.mutiny.Uni<jakarta.ws.rs.core.Response> {op.nickname}(
+                {#else}
+    public {#if op.returnType}io.smallrye.mutiny.Uni<{op.returnType}>{#else}io.smallrye.mutiny.Uni<jakarta.ws.rs.core.Response>{/if} {op.nickname}(
+                {/if}
+            {/if}
+        {#else}
+            {#if mutiny.hasOperationId(op.operationIdOriginal) }
+                {#if op.returnType == "void"}
+    public io.smallrye.mutiny.Uni<jakarta.ws.rs.core.Response> {op.nickname}(
+                {#else}
+    public {#if op.returnType}io.smallrye.mutiny.Uni<{op.returnType}>{#else}io.smallrye.mutiny.Uni<jakarta.ws.rs.core.Response>{/if} {op.nickname}(
+                {/if}
+            {#else}
+                {#if mutiny.globalReturnResponse() }
+    public jakarta.ws.rs.core.Response {op.nickname}(
+                {#else}
+                    {#if op.returnType == "void"}
+    public jakarta.ws.rs.core.Response {op.nickname}(
+                    {#else}
+    public {#if op.returnType}{op.returnType}{#else}jakarta.ws.rs.core.Response{/if} {op.nickname}(
+                    {/if}
+                {/if}
+            {/if}
+        {/if}
+    {/if}
+{/if}

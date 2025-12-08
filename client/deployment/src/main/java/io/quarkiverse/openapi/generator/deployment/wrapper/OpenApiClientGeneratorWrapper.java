@@ -22,6 +22,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.GlobalSettings;
 
 import io.quarkiverse.openapi.generator.deployment.faulttolerance.FaultToleranceConfig;
+import io.quarkiverse.openapi.generator.deployment.mutiny.MutinyConfig;
 
 /**
  * Wrapper for the OpenAPIGen tool.
@@ -103,9 +104,7 @@ public abstract class OpenApiClientGeneratorWrapper {
         this.configurator.addAdditionalProperty("datatypeWithEnum", "");
         this.configurator.addAdditionalProperty("enable-security-generation", TRUE);
         this.configurator.addAdditionalProperty("generate-part-filename", FALSE);
-        this.configurator.addAdditionalProperty("mutiny", FALSE);
-        this.configurator.addAdditionalProperty("mutiny-operation-ids", new HashMap<>());
-        this.configurator.addAdditionalProperty("mutiny-return-response", FALSE);
+        this.configurator.addAdditionalProperty(MutinyConfig.NAME, new MutinyConfig());
         this.configurator.addAdditionalProperty("part-filename-value", "");
         this.configurator.addAdditionalProperty("return-response", FALSE);
         this.configurator.addAdditionalProperty("skipFormModel", TRUE);
@@ -136,25 +135,8 @@ public abstract class OpenApiClientGeneratorWrapper {
         return this;
     }
 
-    public OpenApiClientGeneratorWrapper withMutiny(final Boolean config) {
-        Optional.ofNullable(config).ifPresent(cfg -> {
-            this.configurator.addAdditionalProperty("mutiny", cfg);
-        });
-        return this;
-    }
-
-    public OpenApiClientGeneratorWrapper withMutinyReturnResponse(final Boolean config) {
-        Optional.ofNullable(config).ifPresent(cfg -> {
-            this.configurator.addAdditionalProperty("mutiny-return-response", cfg);
-        });
-        return this;
-    }
-
-    public OpenApiClientGeneratorWrapper withMutinyReturnTypes(final Map<String, String> returnTypeMappings) {
-        if (returnTypeMappings != null && !returnTypeMappings.isEmpty()) {
-            Map<String, Object> mutinyOperationIdsMap = new HashMap<>(returnTypeMappings);
-            configurator.addAdditionalProperty("mutiny-operation-ids", mutinyOperationIdsMap);
-        }
+    public OpenApiClientGeneratorWrapper withMutinyConfig(MutinyConfig mutinyConfig) {
+        this.configurator.addAdditionalProperty(MutinyConfig.NAME, mutinyConfig);
         return this;
     }
 

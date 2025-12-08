@@ -34,6 +34,7 @@ public class QuteTemplatingEngineAdapter extends AbstractTemplatingEngineAdapter
             "multipartFormdataPojo.qute",
             "pojoAdditionalProperties.qute",
             "operationJavaDoc.qute",
+            "mutinyReturnType.qute",
             "faultTolerance.qute"
     };
     public final Engine engine;
